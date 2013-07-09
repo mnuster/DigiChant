@@ -1,0 +1,21 @@
+[
+	{
+		"modid" : "dchant",
+		"name" : "DigiChant",
+		"description" : "Digital Enchanting!",
+		"version" : "pre 0.0.0",
+		"authorList" : [
+			"mnuster"
+		],
+		"credits" : "Created by mnuster",
+		"logoFile" : "",
+		"mcversion" : "1.6.2",
+		"url" : "",
+		"updateUrl" : "",
+		"parent" :"",
+		"screenshots" : [
+		],
+		"dependencies" : [
+		]
+	}
+]
