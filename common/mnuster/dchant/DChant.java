@@ -1,8 +1,10 @@
 package mnuster.dchant;
 
 import mnuster.dchant.block.BlockInprinter;
+import mnuster.dchant.block.Blocks;
 import mnuster.dchant.config.ConfigHandler;
-import mnuster.dchant.lib.Ref;
+import mnuster.dchant.item.Items;
+import mnuster.dchant.lib.ModInfo;
 import mnuster.dchant.network.GuiHandler;
 import mnuster.dchant.network.PacketHandler;
 import mnuster.dchant.proxy.CommonProxy;
@@ -20,37 +22,37 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid = Ref.ID, name = Ref.NAME, version = Ref.VERSION)
-@NetworkMod(channels = {Ref.CHANNEL}, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
+@Mod(modid = ModInfo.ID, name = ModInfo.NAME, version = ModInfo.VERSION)
+@NetworkMod(channels = {ModInfo.CHANNEL}, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class DChant {
 
-	@Instance(Ref.ID)
+	@Instance(ModInfo.ID)
 	public static DChant instance;
 
 	@SidedProxy(clientSide = "mnuster.dchant.proxy.ClientProxy", serverSide = "mnuster.dchant.proxy.CommonProxy")
-	public static CommonProxy proxy;
-	
-	
-	public static int blockRunID = Ref.START_BLOCK_ID;
-	public static Block blockInprinter;
-	
+	public static CommonProxy proxy;	
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		proxy.init();
+		
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
+		proxy.init();
+		
 		NetworkRegistry.instance().registerGuiHandler(instance, new GuiHandler());
 		
-		blockInprinter = new BlockInprinter(blockRunID++);
-		LanguageRegistry.addName(blockInprinter, "Inprinter");
-		GameRegistry.registerBlock(blockInprinter, ((BlockInprinter) blockInprinter).getIDWName());
-		GameRegistry.registerTileEntity(TileEntityInprinter.class, "containerInprinter");
+		Blocks.registerBlocks();
+		Items.registerItems();
 		
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-
+		
+		Blocks.registerNames();
+		Blocks.registerTileEntities();
+		
+		Items.registerNames();
+		
 	}
 
 	@EventHandler

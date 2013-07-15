@@ -18,7 +18,7 @@ public class ContainerInprinter extends Container {
 		
 		addSlotToContainer(new Slot(tileEntity, 0, 27, 35));
 		addSlotToContainer(new Slot(tileEntity, 1, 76, 35));
-		addSlotToContainer(new Slot(tileEntity, 2, 134, 35));
+		addSlotToContainer(new SlotOutput(tileEntity, 2, 134, 35));
 		
 		// standard for adding player inventory
 		int i;

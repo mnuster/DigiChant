@@ -1,6 +1,7 @@
 package mnuster.dchant.tileentity;
 
 import mnuster.dchant.crafting.InprinterRecipes;
+import mnuster.dchant.lib.BlockInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -67,7 +68,7 @@ public class TileEntityInprinter extends TileEntity implements IInventory{
 
 	@Override
 	public String getInvName() {
-		return "Inprinter";
+		return BlockInfo.INPRINTER_NAME;
 	}
 
 	@Override
@@ -103,17 +104,9 @@ public class TileEntityInprinter extends TileEntity implements IInventory{
 		return true;
 	}
 	
-	
-	@SideOnly(Side.CLIENT)
-    public int getPrintProgressScaled(int scale)
-    {
-        return inprinterPrintTime * scale / 200;
-    }
-	
-	
 	@Override
 	public void updateEntity() {
-		if (canPrint()) {
+		if (canPrint() && worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0) {
 			printItem();
 			onInventoryChanged();
 		}

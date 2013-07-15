@@ -3,6 +3,8 @@ package mnuster.dchant.gui;
 import org.lwjgl.opengl.GL11;
 
 import mnuster.dchant.inventory.ContainerInprinter;
+import mnuster.dchant.lib.BlockInfo;
+import mnuster.dchant.lib.ModInfo;
 import mnuster.dchant.tileentity.TileEntityInprinter;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
@@ -11,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiInprinter extends GuiContainer {
 
-	public static final ResourceLocation location = new ResourceLocation("dchant", "textures/gui/inprinter.png");
+	public static final ResourceLocation location = new ResourceLocation(ModInfo.TEXTURE_LOCATION, BlockInfo.INPRINTER_GUI);
 	private TileEntityInprinter inprinterInventory;
 	
 	public GuiInprinter(InventoryPlayer inventoryPlayer, TileEntityInprinter tileEntity) {
