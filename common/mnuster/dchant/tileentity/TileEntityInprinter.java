@@ -1,28 +1,30 @@
 package mnuster.dchant.tileentity;
 
-import mnuster.dchant.crafting.InprinterRecipes;
+import mnuster.dchant.item.Items;
 import mnuster.dchant.lib.BlockInfo;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public class TileEntityInprinter extends TileEntity implements IInventory{
+public class TileEntityInprinter extends TileEntity implements ISidedInventory {
+
+	private static final int[] slots_top = new int[] { 0, 1 };
+	private static final int[] slots_sides = new int[] { 0, 1 };
+	private static final int[] slots_bottom = new int[] { 2 };
 
 	private ItemStack[] inprinterStacks;
-	
+
 	public int currentItemPrintTime;
 	public int inprinterPrintTime;
-	
+
 	public TileEntityInprinter() {
 		inprinterStacks = new ItemStack[3];
 	}
-	
+
 	@Override
 	public int getSizeInventory() {
 		return inprinterStacks.length;
@@ -60,10 +62,10 @@ public class TileEntityInprinter extends TileEntity implements IInventory{
 
 	@Override
 	public void setInventorySlotContents(int slot, ItemStack stack) {
-		if (stack != null && stack.stackSize >getInventoryStackLimit()) {
+		if (stack != null && stack.stackSize > getInventoryStackLimit()) {
 			stack.stackSize = getInventoryStackLimit();
 		}
-		inprinterStacks[slot] = stack;		
+		inprinterStacks[slot] = stack;
 	}
 
 	@Override
@@ -83,72 +85,55 @@ public class TileEntityInprinter extends TileEntity implements IInventory{
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if (this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this) {
+		if (this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
+				this.zCoord) != this) {
 			return false;
 		} else {
-			return entityplayer.getDistanceSq((double)this.xCoord + 0.5D, 
-											(double)this.yCoord + 0.5D, 
-											(double)this.zCoord + 0.5D) <= 64.0D;
+			return entityplayer.getDistanceSq((double) this.xCoord + 0.5D,
+					(double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
 		}
 	}
 
 	@Override
-	public void openChest() {}
+	public void openChest() {
+	}
 
 	@Override
-	public void closeChest() {}
+	public void closeChest() {
+	}
 
 	@Override
 	public boolean isItemValidForSlot(int slot, ItemStack stack) {
-		// will have to change later when templates implemented
-		return true;
-	}
-	
-	@Override
-	public void updateEntity() {
-		if (canPrint() && worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0) {
-			printItem();
-			onInventoryChanged();
+		switch (slot) {
+			case 0:
+				return (stack.itemID == Item.enchantedBook.itemID);
+			case 1:
+				return (stack.itemID == Items.template.itemID);
+			default:
+				return false;
 		}
-	}
-	
-	public boolean canPrint() {
-		// check for both input slots empty
-		if (inprinterStacks[0] == null || inprinterStacks[1] == null) return false;
-		// find result of input and check if null or no (redstone) provided
-		ItemStack stackResult = InprinterRecipes.Printing().getPrintingResult(inprinterStacks[0]);
-		if (stackResult == null || inprinterStacks[1].itemID != Item.redstone.itemID) return false;
-		// check if output slot empty
-		if (inprinterStacks[2] == null) return true;
-		// check if current output equal to result
-		if (!inprinterStacks[2].isItemEqual(stackResult)) return false;
-		// check if output is equal to result and not max stack size
-		int amt = inprinterStacks[2].stackSize + stackResult.stackSize;
-		return (amt <= getInventoryStackLimit() && amt <= stackResult.getMaxStackSize());
-	}
-	
-	public void printItem() {
-		if (canPrint()) {
-			ItemStack stackResult = InprinterRecipes.Printing().getPrintingResult(inprinterStacks[0]);
-			if (inprinterStacks[2] == null) {
-				inprinterStacks[2] = stackResult.copy();
-			} else if (inprinterStacks[2].isItemEqual(stackResult)) {
-				inprinterStacks[2].stackSize += stackResult.stackSize;
-			}
-			
-			--inprinterStacks[0].stackSize;
-			--inprinterStacks[1].stackSize;
-			
-			if (inprinterStacks[0].stackSize <= 0) inprinterStacks[0] = null;
-			if (inprinterStacks[1].stackSize <= 0) inprinterStacks[1] = null;
-		}
+
 	}
 
-	
 	@Override
-    public void readFromNBT(NBTTagCompound tagCompound) {
+	public int[] getAccessibleSlotsFromSide(int side) {
+		return side == 0 ? slots_bottom : (side == 1 ? slots_top : slots_sides);
+	}
+
+	@Override
+	public boolean canInsertItem(int slot, ItemStack stack, int side) {
+		return isItemValidForSlot(slot, stack);
+	}
+
+	@Override
+	public boolean canExtractItem(int slot, ItemStack itemstack, int side) {
+		return (side != 0 || slot != 0 || slot != 1);
+	}
+
+	@Override
+	public void readFromNBT(NBTTagCompound tagCompound) {
 		super.readFromNBT(tagCompound);
-             
+
 		NBTTagList tagList = tagCompound.getTagList("Inventory");
 		for (int i = 0; i < tagList.tagCount(); i++) {
 			NBTTagCompound tag = (NBTTagCompound) tagList.tagAt(i);
@@ -157,16 +142,16 @@ public class TileEntityInprinter extends TileEntity implements IInventory{
 				inprinterStacks[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
-		
-		//inprinterPrintTime = tagCompound.getShort("PrintTime");
-    }
-	
+
+		// inprinterPrintTime = tagCompound.getShort("PrintTime");
+	}
+
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-		
-		//tagCompound.setShort("PrintTime", (short)inprinterPrintTime);
-		                 
+
+		// tagCompound.setShort("PrintTime", (short)inprinterPrintTime);
+
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < inprinterStacks.length; i++) {
 			ItemStack stack = inprinterStacks[i];
@@ -179,6 +164,37 @@ public class TileEntityInprinter extends TileEntity implements IInventory{
 		}
 		tagCompound.setTag("Inventory", itemList);
 	}
-	
+
+	@Override
+	public void updateEntity() {
+		if (canPrint()
+				&& worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0) {
+			printItem();
+			onInventoryChanged();
+		}
+	}
+
+	public boolean canPrint() {
+		// check for both input slots empty
+		if (inprinterStacks[0] == null || inprinterStacks[1] == null
+				|| inprinterStacks[2] != null)
+			return false;
+
+		// check for book and template
+		if (inprinterStacks[0].itemID == Item.enchantedBook.itemID
+				&& inprinterStacks[1].itemID == Items.template.itemID) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void printItem() {
+		// copy template to output
+		inprinterStacks[2] = inprinterStacks[1].splitStack(1);
+
+		// consume enchanted book
+		inprinterStacks[0] = inprinterStacks[1] = null;
+	}
 
 }

@@ -23,40 +23,41 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid = ModInfo.ID, name = ModInfo.NAME, version = ModInfo.VERSION)
-@NetworkMod(channels = {ModInfo.CHANNEL}, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
+@NetworkMod(channels = { ModInfo.CHANNEL }, clientSideRequired = true, serverSideRequired = false, packetHandler = PacketHandler.class)
 public class DChant {
 
 	@Instance(ModInfo.ID)
 	public static DChant instance;
 
 	@SidedProxy(clientSide = "mnuster.dchant.proxy.ClientProxy", serverSide = "mnuster.dchant.proxy.CommonProxy")
-	public static CommonProxy proxy;	
+	public static CommonProxy proxy;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-		
+
 		ConfigHandler.init(event.getSuggestedConfigurationFile());
 		proxy.init();
-		
-		NetworkRegistry.instance().registerGuiHandler(instance, new GuiHandler());
-		
+
+		NetworkRegistry.instance().registerGuiHandler(instance,
+				new GuiHandler());
+
 		Blocks.registerBlocks();
 		Items.registerItems();
-		
+
 	}
 
 	@EventHandler
 	public void init(FMLInitializationEvent event) {
-		
+
 		Blocks.registerNames();
 		Blocks.registerTileEntities();
-		
+
 		Items.registerNames();
-		
+
 	}
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		
+
 	}
 }
