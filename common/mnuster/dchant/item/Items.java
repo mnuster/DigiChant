@@ -7,16 +7,17 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class Items {
 
-	public static Item template;
+	public static Item templateBlank;
+	public static Item templateEnchanted;
 
 	public static void registerItems() {
-		template = new ItemTemplate(ItemInfo.TEMPLATE_ID);
-		// GameRegistry.registerItem(template,
-		// ItemInfo.TEMPLATE_UNLOCALIZED_NAME);
+		templateBlank = new ItemTemplateBlank(ItemInfo.TEMPLATE_BLANK_ID);
+		templateEnchanted = new ItemTemplateEnchanted(ItemInfo.TEMPLATE_ENCH_ID);
 	}
 
 	public static void registerNames() {
-		LanguageRegistry.addName(template, ItemInfo.TEMPLATE_NAME);
+		LanguageRegistry.addName(templateBlank, ItemInfo.TEMPLATE_BLANK_NAME);
+		LanguageRegistry.addName(templateEnchanted, ItemInfo.TEMPLATE_ENCH_NAME);
 	}
 
 }

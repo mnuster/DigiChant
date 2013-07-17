@@ -53,7 +53,7 @@ public class ContainerInprinter extends Container {
 			} else if (index != 1 && index != 0) {
 				if (itemstack1.itemID == Item.enchantedBook.itemID) {
 					if (!mergeItemStack(itemstack1, 0, 1, false)) return null;
-				} else if (itemstack1.itemID == Items.template.itemID) {
+				} else if (itemstack1.itemID == Items.templateBlank.itemID || itemstack1.itemID == Items.templateEnchanted.itemID) {
 					if (!mergeItemStack(itemstack1, 1, 2, false)) return null;
 				} else if (index >= 3 && index < 30) {
 					if (!mergeItemStack(itemstack1, 30, 39, false)) return null;

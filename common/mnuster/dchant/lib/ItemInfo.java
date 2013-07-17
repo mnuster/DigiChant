@@ -2,16 +2,22 @@ package mnuster.dchant.lib;
 
 public class ItemInfo {
 
-	public static int TEMPLATE_ID;
-	public static final int TEMPLATE_DEFAULT = 20000;
-	public static final String TEMPLATE_KEY = "template";
-
-	public static final String TEMPLATE_UNLOCALIZED_NAME = TEMPLATE_KEY;
-	public static final String TEMPLATE_NAME = "Template";
-
-	public static final String TEMPLATE_ICON_BLANK = TEMPLATE_KEY + "_blank";
-	public static final String TEMPLATE_ICON_ENCH = TEMPLATE_KEY + "_ench";
-
-	public static final int TEMPLATE_MAX_CHARGE = 1000;
+	// for Blank Template
+	public static int TEMPLATE_BLANK_ID;
+	public static final int TEMPLATE_BLANK_DEFAULT = 20000;
+	public static final String TEMPLATE_BLANK_KEY = "templateBlank";
+	public static final String TEMPLATE_BLANK_UNLOCALIZED_NAME = TEMPLATE_BLANK_KEY;
+	public static final String TEMPLATE_BLANK_NAME = "Blank Template";
+	public static final String TEMPLATE_BLANK_ICON = TEMPLATE_BLANK_KEY;
+	
+	// for Enchanted Template
+	public static int TEMPLATE_ENCH_ID;
+	public static final int TEMPLATE_ENCH_DEFAULT = 20001;
+	public static final String TEMPLATE_ENCH_KEY = "templateEnch";
+	public static final String TEMPLATE_ENCH_UNLOCALIZED_NAME = TEMPLATE_ENCH_KEY;
+	public static final String TEMPLATE_ENCH_NAME = "Enchanted Template";
+	public static final String TEMPLATE_ENCH_ICON = TEMPLATE_ENCH_KEY;
+	
+	public static final String TEMPLATE_ENCH_TAG = "enchID";
 
 }

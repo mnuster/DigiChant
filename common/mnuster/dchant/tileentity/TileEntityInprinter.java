@@ -1,7 +1,11 @@
 package mnuster.dchant.tileentity;
 
+import java.util.Map;
+
 import mnuster.dchant.item.Items;
+import mnuster.dchant.item.TemplateHelper;
 import mnuster.dchant.lib.BlockInfo;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -85,8 +89,7 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 
 	@Override
 	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if (this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord,
-				this.zCoord) != this) {
+		if (this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this) {
 			return false;
 		} else {
 			return entityplayer.getDistanceSq((double) this.xCoord + 0.5D,
@@ -108,7 +111,7 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 			case 0:
 				return (stack.itemID == Item.enchantedBook.itemID);
 			case 1:
-				return (stack.itemID == Items.template.itemID);
+				return TemplateHelper.isTemplate(stack);
 			default:
 				return false;
 		}
@@ -142,15 +145,11 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 				inprinterStacks[slot] = ItemStack.loadItemStackFromNBT(tag);
 			}
 		}
-
-		// inprinterPrintTime = tagCompound.getShort("PrintTime");
 	}
 
 	@Override
 	public void writeToNBT(NBTTagCompound tagCompound) {
 		super.writeToNBT(tagCompound);
-
-		// tagCompound.setShort("PrintTime", (short)inprinterPrintTime);
 
 		NBTTagList itemList = new NBTTagList();
 		for (int i = 0; i < inprinterStacks.length; i++) {
@@ -167,8 +166,7 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 
 	@Override
 	public void updateEntity() {
-		if (canPrint()
-				&& worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0) {
+		if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0 && canPrint()) {
 			printItem();
 			onInventoryChanged();
 		}
@@ -176,25 +174,27 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 
 	public boolean canPrint() {
 		// check for both input slots empty
-		if (inprinterStacks[0] == null || inprinterStacks[1] == null
-				|| inprinterStacks[2] != null)
+		if (inprinterStacks[0] == null || inprinterStacks[1] == null || inprinterStacks[2] != null)
 			return false;
 
 		// check for book and template
-		if (inprinterStacks[0].itemID == Item.enchantedBook.itemID
-				&& inprinterStacks[1].itemID == Items.template.itemID) {
-			return true;
-		} else {
-			return false;
+		if (TemplateHelper.isEnchBook(inprinterStacks[0])
+				&& TemplateHelper.isTemplate(inprinterStacks[1])) {
+			return (TemplateHelper.getPrintResult(inprinterStacks[0], inprinterStacks[1]) != null);
 		}
+		return false;
 	}
 
 	public void printItem() {
 		// copy template to output
-		inprinterStacks[2] = inprinterStacks[1].splitStack(1);
+		inprinterStacks[2] = TemplateHelper.getPrintResult(inprinterStacks[0], inprinterStacks[1]);
 
-		// consume enchanted book
-		inprinterStacks[0] = inprinterStacks[1] = null;
+		// consume enchanted book and one template
+		inprinterStacks[0] = null;
+		if (--inprinterStacks[1].stackSize == 0) {
+			inprinterStacks[1] = null;
+		}
+
 	}
 
 }

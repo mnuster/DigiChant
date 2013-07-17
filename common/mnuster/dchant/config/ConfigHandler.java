@@ -15,7 +15,8 @@ public class ConfigHandler {
 
 		BlockInfo.INPRINTER_ID = config.getBlock(BlockInfo.INPRINTER_KEY, BlockInfo.INPRINTER_DEFAULT).getInt();
 		
-		ItemInfo.TEMPLATE_ID = config.getItem(ItemInfo.TEMPLATE_KEY, ItemInfo.TEMPLATE_DEFAULT).getInt() - 256;
+		ItemInfo.TEMPLATE_BLANK_ID = config.getItem(ItemInfo.TEMPLATE_BLANK_KEY, ItemInfo.TEMPLATE_BLANK_DEFAULT).getInt() - 256;
+		ItemInfo.TEMPLATE_ENCH_ID = config.getItem(ItemInfo.TEMPLATE_ENCH_KEY, ItemInfo.TEMPLATE_ENCH_DEFAULT).getInt() - 256;
 		
 		config.save();
 		
