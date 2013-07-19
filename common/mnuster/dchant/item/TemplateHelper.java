@@ -43,14 +43,14 @@ public class TemplateHelper {
 		}
 
 		addCharge(getEnchantID(stackBook), result);
-		
+
 		return result;
 	}
 
 	public static short getEnchantID(ItemStack stack) {
 		if (isTemplate(stack)) {
 			return stack.hasTagCompound() ? stack.stackTagCompound
-					.getShort(ItemInfo.TEMPLATE_ENCH_TAG) : -1;
+					.getShort(ItemInfo.TEMPLATE_ENCH.TAG) : -1;
 		} else if (isEnchBook(stack)) {
 			NBTTagList tagList = Item.enchantedBook.func_92110_g(stack);
 			return tagList != null ? ((NBTTagCompound) tagList.tagAt(0)).getShort("id") : -1;
@@ -63,7 +63,7 @@ public class TemplateHelper {
 		if (!template.hasTagCompound()) {
 			template.setTagCompound(new NBTTagCompound());
 		}
-		template.stackTagCompound.setShort(ItemInfo.TEMPLATE_ENCH_TAG, enchantID);
+		template.stackTagCompound.setShort(ItemInfo.TEMPLATE_ENCH.TAG, enchantID);
 	}
 
 	public static void addCharge(short enchantID, ItemStack stack) {

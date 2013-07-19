@@ -1,11 +1,7 @@
 package mnuster.dchant.tileentity;
 
-import java.util.Map;
-
-import mnuster.dchant.item.Items;
 import mnuster.dchant.item.TemplateHelper;
 import mnuster.dchant.lib.BlockInfo;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -74,7 +70,7 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 
 	@Override
 	public String getInvName() {
-		return BlockInfo.INPRINTER_NAME;
+		return BlockInfo.INPRINTER.NAME;
 	}
 
 	@Override

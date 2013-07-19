@@ -11,16 +11,16 @@ public class Blocks {
 	public static Block inprinter;
 	
 	public static void registerBlocks() {
-		inprinter = new BlockInprinter(BlockInfo.INPRINTER_ID);
-		GameRegistry.registerBlock(inprinter, BlockInfo.INPRINTER_UNLOCALIZED_NAME);
+		inprinter = new BlockInprinter(BlockInfo.INPRINTER.ID);
+		GameRegistry.registerBlock(inprinter, BlockInfo.INPRINTER.UNLOCALIZED_NAME);
 	}
 	
 	public static void registerNames() {
-		LanguageRegistry.addName(inprinter, BlockInfo.INPRINTER_NAME);
+		LanguageRegistry.addName(inprinter, BlockInfo.INPRINTER.NAME);
 	}
 	
 	public static void registerTileEntities() {
-		GameRegistry.registerTileEntity(TileEntityInprinter.class, BlockInfo.INPRINTER_TE_KEY);
+		GameRegistry.registerTileEntity(TileEntityInprinter.class, BlockInfo.INPRINTER.TE_KEY);
 	}
 	
 }

@@ -22,13 +22,13 @@ public class BlockInprinter extends BlockContainer {
 		this.setCreativeTab(CreativeTabs.tabBlock);
 		this.setHardness(2F);
 		this.setStepSound(soundMetalFootstep);
-		this.setUnlocalizedName(BlockInfo.INPRINTER_UNLOCALIZED_NAME);
+		this.setUnlocalizedName(BlockInfo.INPRINTER.UNLOCALIZED_NAME);
 	}
 	
 	@SideOnly(Side.CLIENT)
 	@Override
 	public void registerIcons(IconRegister iconRegister) {
-		blockIcon = iconRegister.registerIcon(ModInfo.TEXTURE_LOCATION +":"+ BlockInfo.INPRINTER_ICON);
+		blockIcon = iconRegister.registerIcon(ModInfo.TEXTURE_LOCATION +":"+ BlockInfo.INPRINTER.ICON);
 	}
 	
 	@Override

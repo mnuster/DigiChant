@@ -13,10 +13,10 @@ public class ConfigHandler {
 		
 		config.load();
 
-		BlockInfo.INPRINTER_ID = config.getBlock(BlockInfo.INPRINTER_KEY, BlockInfo.INPRINTER_DEFAULT).getInt();
+		BlockInfo.INPRINTER.ID = config.getBlock(BlockInfo.INPRINTER.KEY, BlockInfo.INPRINTER.DEFAULT).getInt();
 		
-		ItemInfo.TEMPLATE_BLANK_ID = config.getItem(ItemInfo.TEMPLATE_BLANK_KEY, ItemInfo.TEMPLATE_BLANK_DEFAULT).getInt() - 256;
-		ItemInfo.TEMPLATE_ENCH_ID = config.getItem(ItemInfo.TEMPLATE_ENCH_KEY, ItemInfo.TEMPLATE_ENCH_DEFAULT).getInt() - 256;
+		ItemInfo.TEMPLATE_BLANK.ID = config.getItem(ItemInfo.TEMPLATE_BLANK.KEY, ItemInfo.TEMPLATE_BLANK.DEFAULT).getInt() - 256;
+		ItemInfo.TEMPLATE_ENCH.ID = config.getItem(ItemInfo.TEMPLATE_ENCH.KEY, ItemInfo.TEMPLATE_ENCH.DEFAULT).getInt() - 256;
 		
 		config.save();
 		

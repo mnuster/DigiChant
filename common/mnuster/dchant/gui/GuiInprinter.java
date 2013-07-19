@@ -13,7 +13,7 @@ import net.minecraft.util.ResourceLocation;
 
 public class GuiInprinter extends GuiContainer {
 
-	public static final ResourceLocation location = new ResourceLocation(ModInfo.TEXTURE_LOCATION, BlockInfo.INPRINTER_GUI);
+	public static final ResourceLocation location = new ResourceLocation(ModInfo.TEXTURE_LOCATION, BlockInfo.INPRINTER.GUI);
 	private TileEntityInprinter inprinterInventory;
 	
 	public GuiInprinter(InventoryPlayer inventoryPlayer, TileEntityInprinter tileEntity) {
