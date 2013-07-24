@@ -12,29 +12,27 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemTemplateBlank extends Item {
+public class ItemBookDB extends Item {
 
-	public ItemTemplateBlank(int id) {
+	public ItemBookDB(int id) {
 		super(id);
 		this.setCreativeTab(DChant.tabEnchant);
-		setMaxStackSize(16);
-		setUnlocalizedName(ItemInfo.TEMPLATE_BLANK.UNLOCALIZED_NAME);
+		setMaxStackSize(1);
+		setUnlocalizedName(ItemInfo.BOOK_DB.UNLOCALIZED_NAME);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister register) {
-		itemIcon = register.registerIcon(ModInfo.TEXTURE_LOCATION + ":"
-				+ ItemInfo.TEMPLATE_BLANK.ICON);
+		itemIcon = register.registerIcon(ModInfo.TEXTURE_LOCATION + ":" + ItemInfo.BOOK_DB.ICON);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List info,
 			boolean useExtraInformation) {
-		super.addInformation(stack, player, info, useExtraInformation);
-
-		info.add("No Enchantment");
+		if (DBHelper.hasDB(stack)) {
+			info.add("Books: " + Short.toString(stack.getTagCompound().getShort("numBooks")));
+		}
 	}
-
 }

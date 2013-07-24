@@ -1,7 +1,7 @@
 package mnuster.dchant.tileentity;
 
+import mnuster.dchant.info.BlockInfo;
 import mnuster.dchant.item.TemplateHelper;
-import mnuster.dchant.lib.BlockInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.Item;
@@ -36,16 +36,14 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 	}
 
 	@Override
-	public ItemStack decrStackSize(int slot, int amt) {
+	public ItemStack decrStackSize(int slot, int count) {
 		ItemStack stack = getStackInSlot(slot);
 		if (stack != null) {
-			if (stack.stackSize <= amt) {
+			if (stack.stackSize <= count) {
 				setInventorySlotContents(slot, null);
 			} else {
-				stack = stack.splitStack(amt);
-				if (stack.stackSize == 0) {
-					setInventorySlotContents(slot, null);
-				}
+				stack = stack.splitStack(count);
+				onInventoryChanged();
 			}
 		}
 		return stack;
@@ -66,6 +64,7 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 			stack.stackSize = getInventoryStackLimit();
 		}
 		inprinterStacks[slot] = stack;
+		onInventoryChanged();
 	}
 
 	@Override
@@ -84,13 +83,8 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 	}
 
 	@Override
-	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
-		if (this.worldObj.getBlockTileEntity(this.xCoord, this.yCoord, this.zCoord) != this) {
-			return false;
-		} else {
-			return entityplayer.getDistanceSq((double) this.xCoord + 0.5D,
-					(double) this.yCoord + 0.5D, (double) this.zCoord + 0.5D) <= 64.0D;
-		}
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return player.getDistanceSq(xCoord + 0.5, yCoord + 0.5, zCoord + 0.5) <= 64;
 	}
 
 	@Override
@@ -162,9 +156,11 @@ public class TileEntityInprinter extends TileEntity implements ISidedInventory {
 
 	@Override
 	public void updateEntity() {
-		if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0 && canPrint()) {
-			printItem();
-			onInventoryChanged();
+		if (!worldObj.isRemote) {
+			if (worldObj.getBlockMetadata(xCoord, yCoord, zCoord) == 0 && canPrint()) {
+				printItem();
+				onInventoryChanged();
+			}
 		}
 	}
 

@@ -2,10 +2,10 @@ package mnuster.dchant.item;
 
 import java.util.List;
 
-import mnuster.dchant.lib.ItemInfo;
-import mnuster.dchant.lib.ModInfo;
+import mnuster.dchant.DChant;
+import mnuster.dchant.info.ItemInfo;
+import mnuster.dchant.info.ModInfo;
 import net.minecraft.client.renderer.texture.IconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -17,7 +17,7 @@ public class ItemTemplateEnchanted extends Item {
 
 	public ItemTemplateEnchanted(int par1) {
 		super(par1);
-		setCreativeTab(CreativeTabs.tabMisc);
+		this.setCreativeTab(DChant.tabEnchant);
 		setMaxStackSize(1);
 		setUnlocalizedName(ItemInfo.TEMPLATE_ENCH.UNLOCALIZED_NAME);
 	}
@@ -35,7 +35,9 @@ public class ItemTemplateEnchanted extends Item {
 			boolean useExtraInformation) {
 		// super.addInformation(stack, player, info, useExtraInformation);
 
-		info.add(TemplateHelper.getEnchantmentName(stack));
+		if (TemplateHelper.hasEnchantment(stack)) {
+			info.add(TemplateHelper.getEnchantmentName(stack));
+		}
 		info.add("Charge: " + stack.getItemDamage());
 	}
 

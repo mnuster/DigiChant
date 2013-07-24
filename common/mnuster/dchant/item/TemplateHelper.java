@@ -1,6 +1,6 @@
 package mnuster.dchant.item;
 
-import mnuster.dchant.lib.ItemInfo;
+import mnuster.dchant.info.ItemInfo;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -54,6 +54,15 @@ public class TemplateHelper {
 		} else if (isEnchBook(stack)) {
 			NBTTagList tagList = Item.enchantedBook.func_92110_g(stack);
 			return tagList != null ? ((NBTTagCompound) tagList.tagAt(0)).getShort("id") : -1;
+		} else {
+			return -1;
+		}
+	}
+	
+	public static short getEnchantLevel(ItemStack stack) {
+		if (isEnchBook(stack)) {
+			NBTTagList tagList = Item.enchantedBook.func_92110_g(stack);
+			return tagList != null ? ((NBTTagCompound) tagList.tagAt(0)).getShort("lvl") : -1;
 		} else {
 			return -1;
 		}

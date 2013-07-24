@@ -1,4 +1,4 @@
-package mnuster.dchant.lib;
+package mnuster.dchant.info;
 
 public class ModInfo {
 
