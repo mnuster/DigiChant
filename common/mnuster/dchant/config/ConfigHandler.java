@@ -10,18 +10,19 @@ public class ConfigHandler {
 
 	public static void init(File file) {
 		Configuration config = new Configuration(file);
-		
+
 		config.load();
 
-		BlockInfo.INPRINTER.ID = config.getBlock(BlockInfo.INPRINTER.KEY, BlockInfo.INPRINTER.DEFAULT).getInt();
-		BlockInfo.ENCHANTDB.ID = config.getBlock(BlockInfo.ENCHANTDB.KEY, BlockInfo.ENCHANTDB.DEFAULT).getInt();
-		
-		ItemInfo.TEMPLATE_BLANK.ID = config.getItem(ItemInfo.TEMPLATE_BLANK.KEY, ItemInfo.TEMPLATE_BLANK.DEFAULT).getInt() - 256;
-		ItemInfo.TEMPLATE_ENCH.ID = config.getItem(ItemInfo.TEMPLATE_ENCH.KEY, ItemInfo.TEMPLATE_ENCH.DEFAULT).getInt() - 256;
-		ItemInfo.BOOK_DB.ID = config.getItem(ItemInfo.BOOK_DB.KEY, ItemInfo.BOOK_DB.DEFAULT).getInt() - 256;
-		
+		// load block info
+		BlockInfo.SCANNER.ID = config.getBlock(BlockInfo.SCANNER.KEY, BlockInfo.SCANNER.DEFAULT)
+				.getInt();
+
+		// load item info
+		ItemInfo.LIBRARY.ID = config.getItem(ItemInfo.LIBRARY.KEY, ItemInfo.LIBRARY.DEFAULT)
+				.getInt() - 256;
+
 		config.save();
-		
+
 	}
-	
+
 }

@@ -12,27 +12,30 @@ import net.minecraft.item.ItemStack;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class ItemBookDB extends Item {
+public class ItemLibrary extends Item {
 
-	public ItemBookDB(int id) {
+	public ItemLibrary(int id) {
 		super(id);
+
 		this.setCreativeTab(DChant.tabEnchant);
 		setMaxStackSize(1);
-		setUnlocalizedName(ItemInfo.BOOK_DB.UNLOCALIZED_NAME);
+		setUnlocalizedName(ItemInfo.LIBRARY.UNLOCALIZED_NAME);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister register) {
-		itemIcon = register.registerIcon(ModInfo.TEXTURE_LOCATION + ":" + ItemInfo.BOOK_DB.ICON);
+		itemIcon = register.registerIcon(ModInfo.TEXTURE_LOCATION + ":"
+				+ ItemInfo.LIBRARY.ICON);
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void addInformation(ItemStack stack, EntityPlayer player, List info,
 			boolean useExtraInformation) {
-		if (DBHelper.hasDB(stack)) {
-			info.add("Books: " + Short.toString(stack.getTagCompound().getShort("numBooks")));
-		}
+		super.addInformation(stack, player, info, useExtraInformation);
+
+		info.add("Books: " + stack.getItemDamage());
 	}
+	
 }

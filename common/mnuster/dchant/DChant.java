@@ -2,13 +2,12 @@ package mnuster.dchant;
 
 import mnuster.dchant.block.Blocks;
 import mnuster.dchant.config.ConfigHandler;
-import mnuster.dchant.gui.GuiHandler;
+import mnuster.dchant.gui.GUIHandler;
 import mnuster.dchant.info.ModInfo;
 import mnuster.dchant.item.Items;
 import mnuster.dchant.network.PacketHandler;
 import mnuster.dchant.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -31,11 +30,11 @@ public class DChant {
 	public static CommonProxy proxy;
 
 	public static CreativeTabs tabEnchant = new CreativeTabs("tabEnchant") {
-        public ItemStack getIconItemStack() {
-                return new ItemStack(Items.templateEnchanted);
-        }
+		public ItemStack getIconItemStack() {
+			return new ItemStack(Items.library);
+		}
 	};
-	
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 
@@ -54,8 +53,8 @@ public class DChant {
 		Blocks.registerTileEntities();
 
 		Items.registerNames();
-		
-		new GuiHandler();
+
+		NetworkRegistry.instance().registerGuiHandler(DChant.instance, new GUIHandler());
 
 	}
 
